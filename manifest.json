@@ -5,7 +5,8 @@
   "description": "Speak and type in the currently active input field.",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "tabs"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -16,9 +17,9 @@
   "action": {
     "default_title": "Toggle Voice Input",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icons/action-off-16.png",
+      "24": "icons/action-off-24.png",
+      "32": "icons/action-off-32.png"
     }
   },
   "content_scripts": [

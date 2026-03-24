@@ -92,12 +92,22 @@
     el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
   }
 
+  function notifyVisibilityState() {
+    chrome.runtime.sendMessage({
+      action: "VOICE_UI_STATE_CHANGED",
+      isVisible: !uiContainer.classList.contains('vic-hidden')
+    }).catch(() => {
+      // Ignore if background is temporarily unavailable.
+    });
+  }
+
   // Toggle Visibility
   function toggleVisibility() {
     uiContainer.classList.toggle('vic-hidden');
     if (uiContainer.classList.contains('vic-hidden') && isListening) {
       stopListening();
     }
+    notifyVisibilityState();
   }
 
   closeBtn.addEventListener('click', toggleVisibility);
@@ -105,7 +115,10 @@
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "TOGGLE_VOICE_UI") {
       toggleVisibility();
-      sendResponse({ status: "ok" });
+      sendResponse({
+        status: "ok",
+        isVisible: !uiContainer.classList.contains('vic-hidden')
+      });
     }
   });
 
